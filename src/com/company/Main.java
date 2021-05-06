@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static double GetNumber() {
+        System.out.println("Hello World");
         Scanner sc = new Scanner(System.in);
         String tal1 = sc.nextLine();
         if (tal1.equals("MARCUS")) {
