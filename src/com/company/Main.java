@@ -4,16 +4,28 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Main {
+    public static Scanner sc = new Scanner(System.in);
+
     public static double GetNumber() {
-        System.out.println("Hello World");
-        Scanner sc = new Scanner(System.in);
-        String tal1 = sc.nextLine();
-        if (tal1.equals("MARCUS")) {
-            return 42.0;
+        while (true) {
+            // Läs in vad användaren har skrivit
+            String tal1 = sc.nextLine();
+
+            // Om det är Marcus, returnera 42 direkt
+            if (tal1.equals("MARCUS")) {
+                return 42.0;
+            }
+
+            // Annars, FÖRSÖK konvertera strängen till en double
+            try {
+                double result = Double.parseDouble(tal1);
+                return result;
+            } catch (NumberFormatException e) {
+                //System.out.println("Du skrev in nonsens, jag väljer ett tal åt dig istället.");
+                //return 12;
+                System.out.println("DEt där förstår jag inte, försök igen");
+            }
         }
-        // TODO potentiellt fel
-        double result = Double.parseDouble(tal1);
-        return result;
     }
 
     // This method returns temperature within 1 decimal precision
@@ -25,25 +37,29 @@ public class Main {
         return (temp - 32) * (5.0/9.0);
     }
 
-    public static double Calculate(double left, double right, String operation) {
+    // Utför en given operation (+, -, * eller /) på två givna flyttal.
+    // Returnerar Double.Infinity om du försöker dela med noll.
+    // Returnerar Double.NaN om operationen är ogiltig/okänd.
+    public static double Calculate(double left, double right, String operation)
+            throws RuntimeException {
         switch (operation) {
+            case "*":
+                return right * left;
+            case "/":
+                // TODO vad händer om vi delar med noll?
+                return left / right;
             case "+":
                 return left + right;
             case "-":
                 return left - right;
-            case "*":
-                return left * right;
-            case "/":
-                // TODO vad händer om vi delar med noll?
-                return left / right;
         }
-        // TODO vad händer om operation inte är någon av dessa?
-        return 0;
+        // vad händer om operation inte är någon av dessa?
+        throw new RuntimeException("Invalid operator");
+
+        // ...
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
         while (true) {
             // Läs in ett kommando från användaren
             String command = sc.nextLine();
@@ -52,6 +68,7 @@ public class Main {
             if (command.equals("+") || command.equals("-") || command.equals("*") || command.equals("/")) {
                 System.out.println("Skriv ett tal:");
                 double a = GetNumber();
+
                 System.out.println("Skriv in ett till tal:");
                 double b = GetNumber();
 
